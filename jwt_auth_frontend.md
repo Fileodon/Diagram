@@ -1,0 +1,30 @@
+```mermaid
+
+flowchart TD
+    A["Bruger åbner siden"] --> B{"Findes refresh token i localstorage?"}
+
+    B -- Ja --> C["Forny JWT ved hjælp af refresh token"]
+    B -- Nej --> L["Omdiriger til login"]
+
+    C --> D{"Lykkedes fornyelsen?"}
+    D -- Ja --> E["Sæt jwt token i cookie og refresh token i localstorage"]
+    D -- Nej --> L
+
+    L --> M["Håndter login"]
+    M --> E
+
+    E --> F["Bruger foretager API-kald"]
+    F --> G["Tilføj JWT som Bearer Token"]
+    G --> I{"Lykkedes forespørgslen?"}
+
+    I -- Ja --> J["Behandl svaret"]
+    I -- Nej --> K{"401 Unauthorized?"}
+
+    K -- Ja --> C
+    K -- Nej --> N["Håndter API-fejl"]
+
+    J --> O(["Returnér svar"])
+    N --> O
+
+
+```
