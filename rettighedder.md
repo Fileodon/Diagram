@@ -1,0 +1,13 @@
+```mermaid
+flowchart TD
+   A(Bruger forsøger at tilgå ressource)
+   A --> B(Hent brugerens rettigheder)
+   B --> C{Har brugeren rettighed?}
+   C --> |Ja| D(Giv adgang til ressourcen)
+   C --> |nej| E(Afvis adgang til ressourcen)
+   
+   classDef Ja fill:green,stroke:#green,color:#000
+   class D Ja
+   classDef Nej fill:Red,stroke:red,color:#000
+   class E Nej
+```
