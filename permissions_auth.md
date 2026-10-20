@@ -1,0 +1,19 @@
+ ``` mermaid
+flowchart TD
+    A["Indgående API kald med JWT"] --> B["Valider JWT og hent bruger baseret derpå"]
+    B --> C{"Bruger fundet?"}
+
+    C -- fejl --> D["401 Unauthorized"]
+    C -- success --> E["Hent brugerens rolle(r) med rettighedder"]
+
+    E --> F{"Har krævede rettighed<br/>for Endpoint?"}
+
+    F -- fejl --> G["403 Forbidden"]
+    F -- success --> H["Fortsæt med at behandle anmodning"]
+
+    H --> J["Returner svar"]
+
+    D --> K(["Luk"])
+    G --> K
+    J --> K
+```
