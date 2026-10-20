@@ -2,58 +2,71 @@
 %%{init: {
   "theme": "base",
   "themeVariables": {
-    "primaryTextColor": "#000000",
-    "secondaryTextColor": "#000000",
-    "lineColor": "#000000",
-    "actorTextColor": "#000000",
-    "actorLineColor": "#000000",
-    "signalColor": "#000000",
-    "signalTextColor": "#000000",
-    "labelTextColor": "#000000",
-    "noteTextColor": "#000000",
-    "noteTextColor": "#000000"
+    "background": "#111827",
+    "mainBkg": "#1F2937",
+    "primaryColor": "#273449",
+    "primaryTextColor": "#F9FAFB",
+    "primaryBorderColor": "#64748B",
+    "secondaryColor": "#263449",
+    "secondaryTextColor": "#E5E7EB",
+    "secondaryBorderColor": "#64748B",
+    "tertiaryColor": "#1E293B",
+    "lineColor": "#94A3B8",
+    "textColor": "#F3F4F6",
+    "actorBkg": "#273449",
+    "actorBorder": "#94A3B8",
+    "actorTextColor": "#F9FAFB",
+    "actorLineColor": "#64748B",
+    "signalColor": "#CBD5E1",
+    "signalTextColor": "#F9FAFB",
+    "labelBoxBkgColor": "#1F2937",
+    "labelBoxBorderColor": "#64748B",
+    "labelTextColor": "#F9FAFB",
+    "noteBkgColor": "#374151",
+    "noteBorderColor": "#64748B",
+    "noteTextColor": "#F9FAFB",
+    "activationBkgColor": "#334155",
+    "activationBorderColor": "#94A3B8",
+    "sequenceNumberColor": "#111827"
   }
 }}%%
-
 
 sequenceDiagram
     autonumber
 
-    box rgb(255,245,210) 
-        participant SFTPServer 
+    box rgb(69,55,28) SFTP Server
+        participant SFTPServer
     end
 
-    box rgb(220,235,255) 
+    box rgb(30,50,78) Application
         participant App
     end
 
-    box rgb(220,255,220)
+    box rgb(24,65,55) Backend API
         participant API
     end
 
-    box rgb(255,220,220)
+    box rgb(75,38,45) Database
         participant DB
     end
 
+    SFTPServer-->>API: POST - Create Connection Request
 
-SFTPServer-->>API: POST - Create Connection Request
+    API->>DB: Save SFTP connection with status pending
 
-API->>DB: Save SFTP connection with status pending
+    DB->>API: Record created
 
-DB->>API: Record created
+    API-->>SFTPServer: Request saved
 
-API-->>SFTPServer: Request saved
+    SFTPServer-->>API: Polling status change
 
-SFTPServer-->>API: Polling status change
+    App->>API: Accept new connection
 
-App->>API: Accept new connection
+    API->>DB: Save new status and generated key pair
 
-API->>DB: Save new status and generated key pair
+    DB->>API: Record created
 
-DB->>API: Record created
+    API-->>SFTPServer: Poll response. Accepted with public key in response.
 
-API-->>SFTPServer: Poll response. Accepted with public key in response.
-
-
-SFTPServer->>SFTPServer: Creates sftptogo user and home folder
+    SFTPServer->>SFTPServer: Creates sftptogo user and home folder
 ```
