@@ -17,7 +17,7 @@
 }}%%
 flowchart TD
     subgraph Models["Database-modeller"]
-        direction TD
+        direction LR
         A["Organization"]
         B["User"]
         C["Role"]
@@ -26,14 +26,14 @@ flowchart TD
     end
 
     subgraph Events["Model example events"]
-        direction TD
+        direction LR
         F["onCreate"]
         G["onUpdate"]
         H["onDelete"]
     end
 
     subgraph Audit["Audit logging"]
-        direction TB
+        direction TD
         I["Audit Log System"]
         J[("Audit Log Database")]
         I --> J
