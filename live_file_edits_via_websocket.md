@@ -1,0 +1,7 @@
+```mermaid
+graph TD
+    A[Web Editor] <-->|WebSocket| B[WebSocket Server<br/>Current Document State]
+    B -->|Save Document| C[API]
+    C -->|Load on Open| B
+    C <-->|Read & Write File| D[(SFTP Conenction)]
+```
