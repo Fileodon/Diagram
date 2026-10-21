@@ -17,7 +17,7 @@
 }}%%
 flowchart TD
     subgraph Models["Database-modeller"]
-        direction TB
+        direction TD
         A["Organization"]
         B["User"]
         C["Role"]
@@ -26,7 +26,7 @@ flowchart TD
     end
 
     subgraph Events["Model example events"]
-        direction TB
+        direction TD
         F["onCreate"]
         G["onUpdate"]
         H["onDelete"]
