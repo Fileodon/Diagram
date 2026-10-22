@@ -7,7 +7,7 @@ Get-ChildItem -Filter *.mmd | ForEach-Object {
         return # Lambda, not continue...
     }
 
-mmdc -i $_.FullName `
+    mmdc -i $_.FullName `
          -o "exported/$($_.BaseName).svg" `
          --theme dark `
          -b transparent
