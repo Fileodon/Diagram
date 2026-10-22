@@ -12,7 +12,7 @@ Get-ChildItem -Filter *.mmd | ForEach-Object {
             mmdc -i $_.FullName `
          -o "exported/$($_.BaseName).png" `
          --theme dark `
-         -b transparent
+         -b "#262626"
     }
 
 
