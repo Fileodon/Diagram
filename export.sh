@@ -7,6 +7,6 @@ for f in *.mmd; do
     mmdc -i "$f" -o "exported/${f%.mmd}.svg" --theme dark -b transparent
     fi
     if [ ! -f "exported/${f%.mmd}.png" ]; then
-    mmdc -i "$f" -o "exported/${f%.mmd}.png" --theme dark -b transparent
+    mmdc -i "$f" -o "exported/${f%.mmd}.png" --theme dark -b "#262626"
     fi
 done
