@@ -1,3 +1,4 @@
+
 erDiagram
     User {
         int id PK
@@ -51,6 +52,20 @@ erDiagram
         int permission_id FK
     }
 
+    ExampleAuditLog {
+        int id PK
+        int user_id FK "nullable"
+        int organization_id FK "nullable"
+        string action "e.g. user.login"
+        string entity_type "e.g. sftp_connection"
+        int entity_id "nullable"
+        string old_values "JSON, nullable"
+        string new_values "JSON, nullable"
+        string ip_address
+        string user_agent
+        datetime created_at
+    }
+
     User ||--o| UserProfile : "har"
     User ||--o{ UserOrganization : "medlem af"
     Organization ||--o{ UserOrganization : "har medlemmer"
@@ -58,3 +73,5 @@ erDiagram
     Organization ||--o{ SFTPConnection : "har"
     Role ||--o{ RolePermissions : "har"
     Permissions ||--o{ RolePermissions : "tildeles via"
+    User |o--o{ AuditLog : "udfører"
+    Organization |o--o{ AuditLog : "har log"
