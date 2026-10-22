@@ -1,0 +1,76 @@
+erDiagram
+    User {
+        int id PK
+        string email
+        string password
+        boolean email_confirmed
+    }
+
+    UserProfile {
+        int id PK
+        string display_name
+        int user_id FK
+    }
+
+    Organization {
+        int id PK
+        string name
+    }
+
+    SFTPConnection {
+        int id PK
+        string name
+        int organization_id FK
+        string host
+        int port
+        string status
+        string public_key
+        string private_key
+    }
+
+    UserOrganization {
+        int id PK
+        int user_id FK
+        int organization_id FK
+        int role_id FK
+    }
+
+    Role {
+        int id PK
+        string name
+    }
+
+    Permissions {
+        int id PK
+        string name
+    }
+
+    RolePermissions {
+        int id PK
+        int role_id FK
+        int permission_id FK
+    }
+
+    AuditLog {
+        int id PK
+        int user_id FK "nullable"
+        int organization_id FK "nullable"
+        string action "e.g. user.login"
+        string entity_type "e.g. sftp_connection"
+        int entity_id "nullable"
+        string old_values "JSON, nullable"
+        string new_values "JSON, nullable"
+        string ip_address
+        string user_agent
+        datetime created_at
+    }
+
+    User ||--o| UserProfile : "har"
+    User ||--o{ UserOrganization : "medlem af"
+    Organization ||--o{ UserOrganization : "har medlemmer"
+    Role ||--o{ UserOrganization : "tildeles som"
+    Organization ||--o{ SFTPConnection : "har"
+    Role ||--o{ RolePermissions : "har"
+    Permissions ||--o{ RolePermissions : "tildeles via"
+    User |o--o{ AuditLog : "udfører"
+    Organization |o--o{ AuditLog : "har log"
