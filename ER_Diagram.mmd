@@ -1,4 +1,3 @@
-
 erDiagram
     User {
         int id PK
@@ -52,7 +51,7 @@ erDiagram
         int permission_id FK
     }
 
-    ExampleAuditLog {
+    AuditLog {
         int id PK
         int user_id FK "nullable"
         int organization_id FK "nullable"
