@@ -1,0 +1,25 @@
+flowchart LR
+    A([Bruger])
+
+    subgraph S["DIS002 - Filoverførselssystem"]
+        U1(["Angiv destination"])
+        U2(["Validér sti"])
+        U3(["Kontrollér destination"])
+        U4(["Opret destination"])
+        U5(["Kontrollér rettigheder"])
+        U6(["Overfør filer"])
+        U7(["Afvis overførsel"])
+        U8(["Kontrollér diskplads"])
+        U9(["Vælg filer med drag and drop"])
+    end
+
+    A --- U1
+    A --- U6
+    A --- U9
+
+    U1 -.->|include| U2
+    U2 -.->|include| U3
+    U4 -.->|extend| U3
+    U5 -.->|include| U6
+    U7 -.->|extend| U6
+    U8 -.->|extend| U6

@@ -1,0 +1,48 @@
+flowchart TB
+    User["Bruger"]
+    Browser["Webbrowser"]
+    CLI["Fileodon CLI"]
+
+    subgraph Frontend["Frontend"]
+        Nuxt["Nuxt 4"]
+        UI["DaisyUI"]
+        Editor["Monaco editor"]
+    end
+
+    subgraph Backend["Backend"]
+        API["ASP.NET Core API"]
+        Auth["Identity / JWT"]
+        EF["Entity Framework"]
+        Master["Masterserverens distributionslogik"]
+    end
+
+    DB[("PostgreSQL 18.4")]
+
+    subgraph Servers["Eksterne servere"]
+        SAction["Child server N"]
+        S1["Child server A"]
+        S2["Child server B"]
+        S3["Child server C"]
+        PAM["PAM-modul"]
+        SFTP["SFTP / SSH"]
+    end
+
+    User --> Browser
+    Browser --> Nuxt
+    Nuxt --> UI
+    Nuxt --> Editor
+    Nuxt <-->|"HTTPS / REST · JSON"| API
+
+    API --> Auth
+    API --> EF
+    API --> Master
+    EF <--> DB
+
+    CLI -->|"Opsætning / forbindelse"| API
+    API <-->|"Event"| SFTP
+    SFTP <-->|"Event"| SAction
+    S1 <-->|"SFTP / SSH"| S2
+    S2 <-->|"SFTP / SSH"| S3
+
+    Master -. "Koordinerer opgaver og midlertidig adgang" .-> PAM
+    PAM -. "Verificerer midlertidig tilladelse" .-> S1
