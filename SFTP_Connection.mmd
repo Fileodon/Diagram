@@ -1,52 +1,19 @@
-
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "background": "#111827",
-    "mainBkg": "#1F2937",
-    "primaryColor": "#273449",
-    "primaryTextColor": "#F9FAFB",
-    "primaryBorderColor": "#64748B",
-    "secondaryColor": "#263449",
-    "secondaryTextColor": "#E5E7EB",
-    "secondaryBorderColor": "#64748B",
-    "tertiaryColor": "#1E293B",
-    "lineColor": "#94A3B8",
-    "textColor": "#F3F4F6",
-    "actorBkg": "#273449",
-    "actorBorder": "#94A3B8",
-    "actorTextColor": "#F9FAFB",
-    "actorLineColor": "#64748B",
-    "signalColor": "#CBD5E1",
-    "signalTextColor": "#F9FAFB",
-    "labelBoxBkgColor": "#1F2937",
-    "labelBoxBorderColor": "#64748B",
-    "labelTextColor": "#F9FAFB",
-    "noteBkgColor": "#374151",
-    "noteBorderColor": "#64748B",
-    "noteTextColor": "#F9FAFB",
-    "activationBkgColor": "#334155",
-    "activationBorderColor": "#94A3B8",
-    "sequenceNumberColor": "#111827"
-  }
-}}%%
-
 sequenceDiagram
     autonumber
 
-    box rgb(69,55,28) SFTP Server
+    box SFTP Server
         participant SFTPServer
     end
 
-    box rgb(30,50,78) Application
+    box Application
         participant App
     end
 
-    box rgb(24,65,55) Backend API
+    box Backend API
         participant API
     end
 
-    box rgb(75,38,45) Database
+    box Database
         participant DB
     end
 

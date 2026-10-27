@@ -5,14 +5,13 @@ Get-ChildItem -Filter *.mmd | ForEach-Object {
     if (-not (Test-Path "exported/$($_.BaseName).svg")) {
             mmdc -i $_.FullName `
          -o "exported/$($_.BaseName).svg" `
-         --theme dark `
+         --theme default `
          -b transparent
     }
     if (-not (Test-Path "exported/$($_.BaseName).png")) {
             mmdc -i $_.FullName `
          -o "exported/$($_.BaseName).png" `
-         --theme dark `
-         -b "#262626"
+         --theme default
     }
 
 
