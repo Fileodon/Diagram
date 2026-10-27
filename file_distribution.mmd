@@ -1,38 +1,37 @@
+sequenceDiagram
+    actor User as Bruger
+    participant UI as Nuxt frontend
+    participant API as ASP.NET Core API
+    participant Master as Masterserver
+    participant A as Child server A
+    participant B as Child server B
+    participant C as Child server C
 
-block
-    columns 1
-    db(("file"))
-    blockArrowId6<["&nbsp;&nbsp;&nbsp;"]>(down)
-    block
-        A["Master server"]
+    User->>UI: Vælger filer og destinationer
+    UI->>API: Opret distributionsopgave
+    API->>API: Valider JWT og permissions
+    API->>Master: Opret distributionsopgave
+    Master->>Master: Kontroller serverstatus
+    Master-->>A: Tildel første overførselsopgave
+    API-->>UI: Overførsel startet
+    UI-->>User: Vis status
+
+    A->>A: Modtag fil og beregn checksum
+    A->>Master: Rapporter resultat
+
+    alt Filen er verificeret
+        A->>B: Overfør fil via SFTP
+        B->>B: Verificer checksum
+        B->>Master: Rapporter resultat
+        B->>C: Videresend fil via SFTP
+        C->>C: Verificer checksum
+        C->>Master: Rapporter resultat
+    else Modtagelse eller checksum fejler
+        A->>Master: Rapportér fejl
+        Master->>API: Opdater opgavestatus
+        API-->>UI: Vis fejlstatus
     end
-    space
-    block
-        B["Master server"]
-        C["Server A"]
-        A --> C
-    end
-    space
-    block
-        D["Master server"]
-        E["Server A"]
-        F["Server B"]
-        G["Server C"]
-        B --> F
-        C --> G
-    end
-    space
-    block
-        H["Master server"]
-        I["Server A"]
-        J["Server B"]
-        K["Server C"]
-        L["Server D"]
-        M["Server E"]
-        N["Server F"]
-        O["Server G"]
-        D --> L
-        E --> M
-        F --> N
-        G --> O
-    end
+
+    Master->>API: Samlet distributionsstatus
+    API-->>UI: Opdater overførselshistorik
+    UI-->>User: Vis status og resultat
