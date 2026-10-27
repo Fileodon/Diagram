@@ -1,0 +1,49 @@
+
+usecase-beta
+    direction LR
+
+    actor User("Systembruger")
+    actor Admin("Organisationsadministrator")
+    actor Guest("Ikke-registreret bruger")
+    actor SFTP("Ekstern SFTP-server")
+
+    systemBoundary Fileodon["Fileodon"]
+        Login("Log ind")
+        Register("Registrere konto")
+        Profile("Administrere profil")
+        BrowseFiles("Navigere i filsystem")
+        Upload("Uploade filer")
+        Download("Downloade filer")
+        Distribute("Distribuere filer")
+        EditFiles("Redigere filer")
+        TransferFiles("Overføre filer")
+        ViewLogs("Se audit logs")
+        ManageOrg("Administrere organisation")
+        InviteUsers("Invitere brugere")
+        AssignRoles("Tildele roller")
+        ManageConnections("Administrere SFTP-forbindelser")
+    end
+
+    User --> Login
+    User --> Profile
+    User --> BrowseFiles
+    User --> Upload
+    User --> Download
+    User --> Distribute
+    User --> EditFiles
+    User --> ViewLogs
+
+    Admin --> ManageOrg
+    Admin --> InviteUsers
+    Admin --> AssignRoles
+    Admin --> ManageConnections
+
+    Guest --> Register
+
+    BrowseFiles --> SFTP
+    SFTP --> TransferFiles
+
+    Upload ..> : include TransferFiles
+    Download ..> : include TransferFiles
+    EditFiles ..> : include TransferFiles
+    Distribute ..> : include TransferFiles
