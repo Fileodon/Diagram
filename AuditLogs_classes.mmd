@@ -5,20 +5,22 @@ classDiagram
 
 	class BaseAuditLog {
 		int Id
-		int actorId
+		int ActorId
 		User Actor
-		ModelActionEnum action
-		string source
-		string diff
-		string timestamp
+		ModelActionEnum Action
+		string Source // Ip, websocket, user-agent
+		string Diff
+		string Timestamp
 	}
 
 	class OrganizationAuditLog {
-		int Id
+		int OrganizationId
+		Organization organization
 	}
 
 	class SFTPConnectionAuditLog {
-		int Id
+		int SFTPConnectionID
+		SFTPConnection SFTPConnection
 	}
 
 	class SFTPConnectionFileSystemAuditLog {
