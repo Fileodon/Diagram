@@ -1,0 +1,28 @@
+classDiagram
+	BaseAuditLog <|-- OrganizationAuditLog
+	BaseAuditLog <|-- SFTPConnectionAuditLog
+	BaseAuditLog <|-- SFTPConnectionFileSystemAuditLog
+
+	class BaseAuditLog {
+		int Id
+		int actorId
+		User Actor
+		ModelActionEnum action
+		string timestamp
+		string source
+		string diff
+	}
+
+	class OrganizationAuditLog {
+		int Id
+	}
+
+	class SFTPConnectionAuditLog {
+		int Id
+	}
+
+	class SFTPConnectionFileSystemAuditLog {
+		int Id
+		FileActionEnum action
+		string location
+	}
