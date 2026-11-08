@@ -1,14 +1,16 @@
 classDiagram
 	BaseAuditLog <|-- OrganizationAuditLog
 	BaseAuditLog <|-- SFTPConnectionAuditLog
-	BaseAuditLog <|-- SFTPConnectionFileSystemAuditLog
+	%% BaseAuditLog <|-- SFTPConnectionFileSystemAuditLog
+	BaseAuditLog <|-- RoleAuditLog
+	BaseAuditLog <|-- UserOrganizationAuditLog
 
 	class BaseAuditLog {
 		int Id
 		int ActorId
 		User Actor
 		ModelActionEnum Action
-		string Source // Ip, websocket, user-agent
+		string Source
 		string Diff
 		string Timestamp
 	}
@@ -23,8 +25,18 @@ classDiagram
 		SFTPConnection SFTPConnection
 	}
 
-	class SFTPConnectionFileSystemAuditLog {
-		int Id
-		FileActionEnum action
-		string location
+	class RoleAuditLog {
+		string RoleAuditLog
+		Role role
 	}
+
+	class UserOrganizationAuditLog {
+		int UserOrganizationID
+		UserOrganization userOrganization
+	}
+
+	%% class SFTPConnectionFileSystemAuditLog {
+	%% 	int Id
+	%% 	FileActionEnum action
+	%% 	string location
+	%% }

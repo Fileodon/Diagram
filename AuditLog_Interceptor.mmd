@@ -1,0 +1,16 @@
+---
+title: AuditLogInterceptor
+---
+
+flowchart TD
+	A[SavingChanges & SavingChangesAsync] --> B[Interceptoren detektere ændringer]
+	B --> C{Entitet implementerer IAuditable}
+	C -- Ja --> D{Mapping fundet til en Audit Log model baseret på klasse af IAuditable} 
+	C -- Nej --> E[Fortsætter]
+
+	D -- Ja --> F[Byg audit log record] 
+	D -- Nej --> G[Log en advarsel og fortsæt]
+
+	F --> H[Tilføj ny audit log til database kontekst]
+	G --> E
+	H --> E
