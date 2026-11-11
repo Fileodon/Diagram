@@ -1,0 +1,30 @@
+architecture-beta
+	group cloud(cloud)[Cloud]
+		group coolify[Coolify] in cloud
+			group api[API] in coolify
+				service api_service(logos:dotnet)[API] in api
+				service db(logos:postgresql)[Database] in api
+
+			group frontend[Frontend] in coolify
+				service web_app(logos:nuxt)[Web application] in frontend
+
+	group external(server)[Bruger håndteret server]
+		service pam(logos:terminal)[PAM modul] in external
+		service cli(logos:terminal)[CLI] in external
+		%% service pam(logos:terminal)[PAM] in external ved ikke hvordan jeg skal få den ind pænt
+
+	group github(logos:github)
+		service pam_release(disk)[PAM Modul Github Release] in github
+		service cli_release(disk)[CLI Github Release] in github
+
+	service actor(fa:user)[User]
+	
+
+
+	web_app{group}:L <-[JSON]-> R:api_service{group}
+	cli_release{group}:R -[Download nyeste CLI version]-> L:cli{group}
+	pam_release{group}:R -[Download nyeste PAM modul version]-> L:pam{group}
+	api_service:L <-[Data]-> R:db
+	cli{group}:B <-[Oprettelse af forbindelse]-> T:api_service{group}
+	actor{group}:B <-[Admin & servere]-> T:web_app{group}
+	actor{group}:L <-[Forbinder server]-> R:cli{group}

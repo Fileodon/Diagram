@@ -1,18 +1,22 @@
 # npm install -g @mermaid-js/mermaid-cli
-New-item -ItemType Directory -Force exported
+New-Item -ItemType Directory -Force exported
 
 Get-ChildItem -Filter *.mmd | ForEach-Object {
-    if (-not (Test-Path "exported/$($_.BaseName).svg")) {
-            mmdc -i $_.FullName `
-         -o "exported/$($_.BaseName).svg" `
-         --theme default `
-         -b transparent
-    }
-    if (-not (Test-Path "exported/$($_.BaseName).png")) {
-            mmdc -i $_.FullName `
-         -o "exported/$($_.BaseName).png" `
-         --theme default
+    $svg = "exported/$($_.BaseName).svg"
+    $png = "exported/$($_.BaseName).png"
+
+    if (-not (Test-Path $svg)) {
+        mmdc -i $_.FullName `
+            -o $svg `
+            --theme default `
+            -b transparent `
+            --iconPacks "@iconify-json/logos" "@iconify-json/fa"
     }
 
-
+    if (-not (Test-Path $png)) {
+        mmdc -i $_.FullName `
+            -o $png `
+            --theme default `
+            --iconPacks "@iconify-json/logos" "@iconify-json/fa"
+    }
 }
