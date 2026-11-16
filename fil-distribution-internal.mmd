@@ -1,0 +1,23 @@
+
+sequenceDiagram
+    participant API as API Master server
+    participant A as Server A
+    participant B as Server B
+    participant C as Server C
+	participant D as Server D
+
+    API->>B: Generer credentials til B
+    API->>A: Instruer: send fil til B (med B's credentials)
+    A->>B: Upload fil
+    A-->>API: Færdig, fil sendt til B
+
+    API->>C: Generer credentials til C
+    API->>B: Instruer: upload fil til C (med C's credentials)
+    B->>C: Upload fil
+    B-->>API: Færdig, fil sendt til C
+
+	API->>D: Generer credentials til D
+    API->>A: Instuer: upload fil til D (med D's credentials)
+	A->>D: Upload fil
+    D-->>API: Færdig, fil sendt til D
+
