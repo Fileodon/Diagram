@@ -7,6 +7,7 @@ sequenceDiagram
 	participant D as Server D
 
     API->>B: Generer credentials til B
+    API->>A: upload fil
     API->>A: Instruer: send fil til B (med B's credentials)
     A->>B: Upload fil
     A-->>API: Færdig, fil sendt til B
