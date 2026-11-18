@@ -1,0 +1,225 @@
+erDiagram
+
+    AspNetUsers {
+        text id PK
+        varchar user_name
+        varchar normalized_user_name
+        varchar email
+        varchar normalized_email
+        boolean email_confirmed
+        text password_hash
+        text security_stamp
+        text concurrency_stamp
+        text phone_number
+        boolean phone_number_confirmed
+        boolean two_factor_enabled
+        timestamptz lockout_end
+        boolean lockout_enabled
+        integer access_failed_count
+        timestamptz created_at
+    }
+
+    AspNetRoles {
+        text id PK
+        varchar name
+        varchar normalized_name
+        text concurrency_stamp
+        integer organization_id FK
+        bigint permission_mask
+        boolean is_system_role
+    }
+
+    AspNetRoleClaims {
+        integer id PK
+        text role_id FK
+        text claim_type
+        text claim_value
+    }
+
+    AspNetUserClaims {
+        integer id PK
+        text user_id FK
+        text claim_type
+        text claim_value
+    }
+
+    AspNetUserLogins {
+        text login_provider PK
+        text provider_key PK
+        text provider_display_name
+        text user_id FK
+    }
+
+    AspNetUserRoles {
+        text user_id PK, FK
+        text role_id PK, FK
+    }
+
+    AspNetUserTokens {
+        text user_id PK, FK
+        text login_provider PK
+        text name PK
+        text value
+    }
+
+    organizations {
+        integer id PK
+        text org_name
+        text contact_email
+        text user_owner_id FK
+        text workspace_url
+    }
+
+    users_organizations {
+        integer id PK
+        text users_id FK
+        integer organization_id FK
+        text role_id FK
+    }
+
+    permissions {
+        integer id PK
+        text navn
+        bigint bit_value
+    }
+
+    profile {
+        integer id PK
+        text display_name
+    }
+
+    refresh_tokens {
+        integer id PK
+        varchar token_hash
+        text user_id FK
+        timestamptz created_at
+        timestamptz expires_at
+        timestamptz revoked_at
+        text replaced_by_token_hash
+    }
+
+    sftp_connections {
+        integer id PK
+        text display_name
+        integer organization_id FK
+        text host
+        integer port
+        integer status
+        text public_key
+        text private_key
+    }
+
+    sftp_connection_auth_codes {
+        integer id PK
+        text verification_code
+        integer organization_id FK
+        text user_id FK
+        timestamptz created_at
+        timestamptz expires_at
+    }
+
+    sftp_distribution_jobs {
+        uuid id PK
+        integer organization_id FK
+        text user_id FK
+        integer status
+        timestamptz created_at
+        timestamptz ready_at
+        integer total_files
+        bigint total_bytes
+        text files_json
+        text destinations_json
+        text error
+        text progress_json
+    }
+
+    organization_audit_logs {
+        uuid id PK
+        integer organization_id FK
+        text actor_id FK
+        text action
+        text source
+        jsonb old_data
+        jsonb new_data
+        timestamptz timestamp
+    }
+
+    role_audit_logs {
+        uuid id PK
+        text role_id FK
+        text actor_id FK
+        text action
+        text source
+        jsonb old_data
+        jsonb new_data
+        timestamptz timestamp
+    }
+
+    sftp_connection_audit_logs {
+        uuid id PK
+        integer sftp_connection_id FK
+        text actor_id FK
+        text action
+        text source
+        jsonb old_data
+        jsonb new_data
+        timestamptz timestamp
+    }
+
+    user_organization_audit_logs {
+        uuid id PK
+        integer user_organization_id FK
+        text actor_id FK
+        text action
+        text source
+        jsonb old_data
+        jsonb new_data
+        timestamptz timestamp
+    }
+
+    EFMigrationsHistory {
+        varchar migration_id PK
+        varchar product_version
+    }
+
+    %% Organisationer og brugere
+    AspNetUsers ||--o{ organizations : "ejer"
+    AspNetUsers ||--o{ users_organizations : "er medlem"
+    organizations ||--o{ users_organizations : "har medlemmer"
+
+    %% Roller og organisationer
+    organizations ||--o{ AspNetRoles : "har roller"
+    AspNetRoles ||--o{ users_organizations : "tildeles via"
+    
+    %% ASP.NET Identity relationer
+    AspNetRoles ||--o{ AspNetRoleClaims : "har claims"
+    AspNetUsers ||--o{ AspNetUserClaims : "har claims"
+    AspNetUsers ||--o{ AspNetUserLogins : "har logins"
+    AspNetUsers ||--o{ AspNetUserRoles : "har roller"
+    AspNetRoles ||--o{ AspNetUserRoles : "tildeles brugere"
+    AspNetUsers ||--o{ AspNetUserTokens : "har tokens"
+
+    %% Brugerrelaterede data
+    AspNetUsers ||--o{ refresh_tokens : "har refresh tokens"
+
+    %% SFTP relationer
+    organizations ||--o{ sftp_connections : "har forbindelser"
+    organizations ||--o{ sftp_connection_auth_codes : "har godkendelseskoder"
+    AspNetUsers o|--o{ sftp_connection_auth_codes : "opretter"
+    
+    %% Fil-distribution
+    organizations ||--o{ sftp_distribution_jobs : "har distributionsjobs"
+    AspNetUsers ||--o{ sftp_distribution_jobs : "opretter"
+
+    %% Audit logs
+    organizations ||--o{ organization_audit_logs : "har logposter"
+    AspNetUsers ||--o{ organization_audit_logs : "udfører handlinger"
+
+    AspNetRoles ||--o{ role_audit_logs : "har logposter"
+    AspNetUsers ||--o{ role_audit_logs : "udfører handlinger"
+
+    sftp_connections ||--o{ sftp_connection_audit_logs : "har logposter"
+    AspNetUsers ||--o{ sftp_connection_audit_logs : "udfører handlinger"
+
+    users_organizations ||--o{ user_organization_audit_logs : "har logposter"
+    AspNetUsers ||--o{ user_organization_audit_logs : "udfører handlinger"
