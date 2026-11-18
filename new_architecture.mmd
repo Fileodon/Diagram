@@ -1,6 +1,7 @@
+
 architecture-beta
 	group cloud(cloud)[Cloud]
-		group coolify[Coolify] in cloud
+		group coolify(simple-icons:coolify)[Coolify] in cloud
 			group api[API] in coolify
 				service api_service(logos:dotnet)[API] in api
 				service db(logos:postgresql)[Database] in api
@@ -13,7 +14,7 @@ architecture-beta
 		service cli(logos:terminal)[CLI] in external
 		%% service pam(logos:terminal)[PAM] in external ved ikke hvordan jeg skal få den ind pænt
 
-	group github(logos:github)
+	group github(logos:github-octocat)[GitHub]
 		service pam_release(disk)[PAM Modul Github Release] in github
 		service cli_release(disk)[CLI Github Release] in github
 

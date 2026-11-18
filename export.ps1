@@ -10,13 +10,13 @@ Get-ChildItem -Filter *.mmd | ForEach-Object {
             -o $svg `
             --theme default `
             -b transparent `
-            --iconPacks "@iconify-json/logos" "@iconify-json/fa"
+            --iconPacks "@iconify-json/logos" "@iconify-json/fa" "@iconify-json/simple-icons"
     }
 
     if (-not (Test-Path $png)) {
         mmdc -i $_.FullName `
             -o $png `
             --theme default `
-            --iconPacks "@iconify-json/logos" "@iconify-json/fa"
+            --iconPacks "@iconify-json/logos" "@iconify-json/fa" "@iconify-json/simple-icons"
     }
 }

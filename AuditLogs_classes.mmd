@@ -4,6 +4,7 @@ classDiagram
 	%% BaseAuditLog <|-- SFTPConnectionFileSystemAuditLog
 	BaseAuditLog <|-- RoleAuditLog
 	BaseAuditLog <|-- UserOrganizationAuditLog
+	BaseAuditLog <|-- SFTPActionAuditLog
 
 	class BaseAuditLog {
 		int Id
@@ -33,6 +34,11 @@ classDiagram
 	class UserOrganizationAuditLog {
 		int UserOrganizationID
 		UserOrganization userOrganization
+	}
+
+	class SFTPActionAuditLog {
+		int SFTPConnectionID
+		SFTPConnection SFTPConnection
 	}
 
 	%% class SFTPConnectionFileSystemAuditLog {
